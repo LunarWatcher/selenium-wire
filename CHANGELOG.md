@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.0.1 (2025-07-05)
+
+### Fixed
+* os.mkdir -> os.makedirs so it doesn't fail when making nested folders
+
 ## v1.0.0 (2025-07-05)
 
 ### Added

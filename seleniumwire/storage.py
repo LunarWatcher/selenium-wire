@@ -86,7 +86,7 @@ class RequestStorage:
         """
         request_id = str(uuid.uuid4())
         request_dir = self._get_request_dir(request_id)
-        os.mkdir(request_dir)
+        os.makedirs(request_dir)
         request.id = request_id
 
         self._save(request, request_dir, "request")
