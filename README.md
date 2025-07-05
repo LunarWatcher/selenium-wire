@@ -834,9 +834,7 @@ driver = webdriver.Chrome(seleniumwire_options=options)
 
 `upstream_proxy`
 
-:   The upstream [proxy
-    server](https://github.com/7x11x13/selenium-wire-2#Upstream%20Proxies)
-    configuration if you\'re using a proxy.
+: TODO
 
 `verify_ssl`
 

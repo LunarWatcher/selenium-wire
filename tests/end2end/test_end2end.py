@@ -395,11 +395,11 @@ def test_exclude_hosts(driver_path, chrome_options, httpbin):
 
     with create_driver(driver_path, chrome_options, sw_options) as driver:
         driver.get(f"{httpbin}/html")
-        driver.get(f"https://7x11x13.xyz/")
+        driver.get(f"https://example.com/")
 
         urls = {req.url for req in driver.requests}
 
-        assert f"https://7x11x13.xyz/" in urls
+        assert f"https://example.com/" in urls
         assert f"{httpbin}/html" not in urls
 
 
