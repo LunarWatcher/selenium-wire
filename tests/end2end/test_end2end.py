@@ -507,6 +507,7 @@ def test_switch_proxy_on_the_fly(driver_path, chrome_options, httpbin, httpproxy
         assert driver.last_request.certificate_list
 
 
+# TODO: This test appears to be flaky
 def test_clear_proxy_on_the_fly(driver_path, chrome_options, httpbin, httpproxy):
     sw_options = SeleniumWireOptions(upstream_proxy=ProxyConfig(https=f"{httpproxy}"))
 

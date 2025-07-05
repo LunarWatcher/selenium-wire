@@ -1,7 +1,5 @@
 # Changelog
 
-
-
 ## v1.0.0 (2025-07-05)
 
 ### Added
@@ -17,6 +15,6 @@
 * Flaky test_capture_requests test
 
 ### Removed
-* `tox`, because it's a piece of shit and I hate it deeply
+* `tox`, because it's a piece of shit, I hate it deeply, and it single-handedly cost me significant amounts of time while trying an initial refactor of the original selenium-wire (i.e. not selenium-wire-2)
 * `setup.py` has been removed in favour of `pyproject.toml`
 
