@@ -2,8 +2,8 @@ import functools
 from unittest import TestCase
 from unittest.mock import call, patch
 
-from seleniumwire2.options import ProxyConfig, SeleniumWireOptions
-from seleniumwire2.server import MitmProxy
+from seleniumwire.options import ProxyConfig, SeleniumWireOptions
+from seleniumwire.server import MitmProxy
 
 
 class MitmProxyTest(TestCase):
@@ -89,35 +89,35 @@ class MitmProxyTest(TestCase):
         )
 
     def setUp(self):
-        patcher = patch("seleniumwire2.server.storage")
+        patcher = patch("seleniumwire.server.storage")
         self.mock_storage = patcher.start()
         self.mock_storage.create.return_value.home_dir = "/some/dir"
         self.addCleanup(patcher.stop)
 
-        patcher = patch("seleniumwire2.server.Options")
+        patcher = patch("seleniumwire.server.Options")
         self.mock_options = patcher.start()
         self.addCleanup(patcher.stop)
 
-        patcher = patch("seleniumwire2.server.Master")
+        patcher = patch("seleniumwire.server.Master")
         self.mock_master = patcher.start()
         self.addCleanup(patcher.stop)
 
-        patcher = patch("seleniumwire2.server.SendToLogger")
+        patcher = patch("seleniumwire.server.SendToLogger")
         self.mock_logger = patcher.start()
         self.addCleanup(patcher.stop)
 
-        patcher = patch("seleniumwire2.server.addons")
+        patcher = patch("seleniumwire.server.addons")
         self.mock_addons = patcher.start()
         self.addCleanup(patcher.stop)
 
-        patcher = patch("seleniumwire2.server.InterceptRequestHandler")
+        patcher = patch("seleniumwire.server.InterceptRequestHandler")
         self.mock_handler = patcher.start()
         self.addCleanup(patcher.stop)
 
-        patcher = patch("seleniumwire2.server.asyncio")
+        patcher = patch("seleniumwire.server.asyncio")
         self.mock_asyncio = patcher.start()
         self.addCleanup(patcher.stop)
 
-        patcher = patch("seleniumwire2.server.get_mitm_upstream_proxy_args")
+        patcher = patch("seleniumwire.server.get_mitm_upstream_proxy_args")
         self.mock_get_mitm_upstream_proxy_args = patcher.start()
         self.addCleanup(patcher.stop)

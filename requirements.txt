@@ -1,0 +1,7 @@
+mitmproxy>=12.1.1
+selenium>=4.10.0
+
+# Development
+tox
+pytest
+httpbin

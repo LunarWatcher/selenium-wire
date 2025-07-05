@@ -17,11 +17,12 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
-import seleniumwire2
-from seleniumwire2 import webdriver
-from seleniumwire2.exceptions import SeleniumWireException
-from seleniumwire2.options import ProxyConfig, SeleniumWireOptions
-from seleniumwire2.request import Request
+import seleniumwire
+from seleniumwire import webdriver
+from seleniumwire.exceptions import SeleniumWireException
+from seleniumwire.options import ProxyConfig, SeleniumWireOptions
+from seleniumwire.request import Request
+from seleniumwire.webdriver import Chrome
 from tests import utils as testutils
 from tests.httpbin_server import Httpbin
 
@@ -61,7 +62,7 @@ def create_httpproxy(port=8086, mode="http", auth=""):
 def driver_path():
     if os.name == "nt":
         return "chromedriver.exe"
-    return os.getenv("CHROMEDRIVER_PATH")
+    return os.getenv("CHROMEDRIVER_PATH") or ""
 
 
 @pytest.fixture
@@ -114,13 +115,17 @@ def filter_chrome_requests(driver: webdriver.Chrome):
     driver.exclude_urls += [r".*google\.com.*"]
 
 
-def test_capture_requests(driver, httpbin):
+def test_capture_requests(driver: Chrome, httpbin):
     driver.get(f"{httpbin}/html")
+    driver.find_element(By.TAG_NAME, "html")
 
     assert driver.requests
-    assert all(r.response is not None for r in driver.requests)
+    # Page request + automatic favicon request
+    assert len(driver.requests) == 2
+    for request in driver.requests:
+        assert request is not None, request
     del driver.requests
-    assert not driver.requests
+    assert len(driver.requests) == 0
 
 
 def test_last_request(driver, httpbin):
@@ -446,7 +451,7 @@ def test_har(driver_path, chrome_options, httpbin):
 
         har = json.loads(driver.har)
 
-        assert har["log"]["creator"]["comment"] == f"Selenium Wire version {seleniumwire2.__version__}"
+        assert har["log"]["creator"]["comment"] == f"Selenium Wire version {seleniumwire.__version__}"
         assert len(har["log"]["entries"]) == 1
         assert har["log"]["entries"][0]["request"]["url"] == f"{httpbin}/html"
         assert har["log"]["entries"][0]["response"]["status"] == 200

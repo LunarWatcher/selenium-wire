@@ -7,11 +7,11 @@ from mitmproxy.http import Headers, HTTPFlow
 from mitmproxy.http import Request as MitmRequest
 from mitmproxy.http import Response as MitmResponse
 
-from seleniumwire2 import har
-from seleniumwire2.request import Request, Response, WebSocketMessage
+from seleniumwire import har
+from seleniumwire.request import Request, Response, WebSocketMessage
 
 if TYPE_CHECKING:
-    from seleniumwire2.server import MitmProxy
+    from seleniumwire.server import MitmProxy
 
 log = logging.getLogger(__name__)
 

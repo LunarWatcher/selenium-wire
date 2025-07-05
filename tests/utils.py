@@ -13,7 +13,7 @@ def get_chromium_path() -> str:
     if os.name == "nt":
         return "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe"
 
-    return os.getenv("CHROMIUM_PATH")
+    return os.getenv("CHROMIUM_PATH") or ""
 
 
 class Proxy:

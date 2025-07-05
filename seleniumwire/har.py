@@ -12,7 +12,7 @@ from mitmproxy.http import HTTPFlow
 from mitmproxy.net.http import cookies
 from mitmproxy.utils import strutils
 
-import seleniumwire2
+import seleniumwire
 
 # A list of server seen till now is maintained so we can avoid
 # using 'connect' time for entries that use an existing connection.
@@ -183,8 +183,8 @@ def generate_har(entries: list[dict]) -> str:
             "version": "1.2",
             "creator": {
                 "name": "Selenium Wire HAR dump",
-                "version": seleniumwire2.__version__,
-                "comment": f"Selenium Wire version {seleniumwire2.__version__}",
+                "version": seleniumwire.__version__,
+                "comment": f"Selenium Wire version {seleniumwire.__version__}",
             },
             "entries": entries,
         }

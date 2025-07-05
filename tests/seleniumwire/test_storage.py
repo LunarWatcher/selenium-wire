@@ -13,14 +13,14 @@ from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.x509.oid import NameOID
 
-from seleniumwire2 import Cert
-from seleniumwire2.request import Request, Response, WebSocketMessage
-from seleniumwire2.storage import InMemoryRequestStorage, RequestStorage, create
+from seleniumwire import Cert
+from seleniumwire.request import Request, Response, WebSocketMessage
+from seleniumwire.storage import InMemoryRequestStorage, RequestStorage, create
 
 
 class CreateTest(TestCase):
 
-    @patch("seleniumwire2.storage.os")
+    @patch("seleniumwire.storage.os")
     def test_create_default_storage(self, mock_os):
         base_dir = "/some/dir"
         mock_os.path = os.path
@@ -181,7 +181,7 @@ class RequestStorageTest(TestCase):
         self.assertIsNone(requests[0].response)
         self.assertIsNone(requests[1].response)
 
-    @patch("seleniumwire2.storage.pickle")
+    @patch("seleniumwire.storage.pickle")
     def test_load_requests_unpickle_error(self, mock_pickle):
         request_1 = self._create_request()
         request_2 = self._create_request()
@@ -218,7 +218,7 @@ class RequestStorageTest(TestCase):
 
         self.assertIsNotNone(requests[0].response)
 
-    @patch("seleniumwire2.storage.pickle")
+    @patch("seleniumwire.storage.pickle")
     def test_load_response_unpickle_error(self, mock_pickle):
         request = self._create_request()
         self.storage.save_request(request)

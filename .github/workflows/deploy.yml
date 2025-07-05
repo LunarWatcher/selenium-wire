@@ -1,25 +1,26 @@
 name: deploy
 on:
-  push:
-    tags:
-      - '*.*'
+  release:
+    types: [ published ]
+  workflow_dispatch:
 
 jobs:
-  build-n-publish:
-    name: Build and publish Python 🐍 distributions 📦 to PyPI
+  publish:
+    name: Build and publish Python distributions to PyPI
     runs-on: ubuntu-latest
     steps:
-        - uses: actions/checkout@v1
-        - uses: actions/setup-python@v2
-          with:
-            python-version: '3.12'
-        - run: python -m pip install --upgrade pip
-        - run: pip install wheel setuptools
-        - name: Build a binary wheel and a source tarball
-          run: >-
-            python setup.py sdist bdist_wheel
-        - name: Publish distribution 📦 to PyPI
-          if: startsWith(github.ref, 'refs/tags')
-          uses: pypa/gh-action-pypi-publish@release/v1
-          with:
-            password: ${{ secrets.PYPI_API_TOKEN }}
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip pkginfo
+          pip install -r requirements.txt
+          pip install setuptools wheel build
+      - name: Build package
+        run: python3 -m build
+      - name: Publish package to PyPI
+        uses: pypa/gh-action-pypi-publish@v1.12.4

@@ -12,10 +12,10 @@ from selenium.webdriver import SafariOptions
 from selenium.webdriver.common.options import BaseOptions
 from selenium.webdriver.common.proxy import Proxy
 
-from seleniumwire2 import backend, utils
-from seleniumwire2.inspect import InspectRequestsMixin
-from seleniumwire2.options import ProxyConfig, SeleniumWireOptions
-from seleniumwire2.server import MitmProxy
+from seleniumwire import backend, utils
+from seleniumwire.inspect import InspectRequestsMixin
+from seleniumwire.options import ProxyConfig, SeleniumWireOptions
+from seleniumwire.server import MitmProxy
 
 
 class Capabilities(TypedDict):
@@ -186,3 +186,31 @@ class Remote(InspectRequestsMixin, DriverCommonMixin, _Remote):
             raise ValueError("Remote driver must be initialized with 'options' kwarg")
         self._setup_backend(seleniumwire_options, options)
         super().__init__(*args, **kwargs)
+
+try:
+    import undetected_geckodriver as uf
+
+    class UndetectedFirefox(InspectRequestsMixin, DriverCommonMixin,
+                            uf.Firefox):
+        def __init__(self, *args, seleniumwire_options: SeleniumWireOptions = SeleniumWireOptions(), **kwargs):
+            """Initialise a new Firefox WebDriver instance."""
+            options = kwargs.get("options", FirefoxOptions())
+            kwargs["options"] = options
+            self._setup_backend(seleniumwire_options, options)
+            super().__init__(*args, **kwargs)
+except:
+    pass
+
+try:
+    import undetected_chromedriver as uc
+
+    class UndetectedChrome(InspectRequestsMixin, DriverCommonMixin,
+                            uc.Chrome):
+        def __init__(self, *args, seleniumwire_options: SeleniumWireOptions = SeleniumWireOptions(), **kwargs):
+            """Initialise a new Firefox WebDriver instance."""
+            options = kwargs.get("options", FirefoxOptions())
+            kwargs["options"] = options
+            self._setup_backend(seleniumwire_options, options)
+            super().__init__(*args, **kwargs)
+except:
+    pass

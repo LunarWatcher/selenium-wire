@@ -5,7 +5,7 @@ import urllib.error
 import urllib.request
 from unittest import TestCase
 
-from seleniumwire2 import backend
+from seleniumwire import backend
 from tests.httpbin_server import Httpbin
 
 
