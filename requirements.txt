@@ -1,4 +1,4 @@
-mitmproxy>=12.1.1
+mitmproxy>=11.0.2
 selenium>=4.10.0
 
 # Development
