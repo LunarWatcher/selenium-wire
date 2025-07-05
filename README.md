@@ -1,6 +1,6 @@
 # Selenium Wire
 
-This is a fork of 7x11x13's [selenium-wire-2](https://github.com/7x11x13/selenium-wire-2), which itself is a fork of Will Keeling's [selenium-wire](https://github.com/wkeeling/selenium-wire).
+This is a fork of 7x11x13's [selenium-wire-2](https://github.com/7x11x13/selenium-wire-2), which itself is a fork of Will Keeling's [selenium-wire](https://github.com/wkeeling/selenium-wire). This fork notably features both `undetected-geckodriver-lw` and `undetected-chromedriver` integration.
 
 This fork exists because selenium-wire has been officially abandoned, selenium-wire-2 does not appear to be maintained, and I need selenium-wire for an archival project of mine, so here we go.
 

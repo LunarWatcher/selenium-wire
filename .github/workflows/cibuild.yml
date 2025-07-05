@@ -25,9 +25,6 @@ jobs:
     steps:
       - run: printenv
       - uses: actions/checkout@v4
-      - uses: browser-actions/setup-chrome@v1
-        with:
-          install-chromedriver: true
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.py }}
