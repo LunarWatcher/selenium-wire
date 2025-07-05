@@ -37,6 +37,3 @@ jobs:
       - name: "Run tests"
         run: |
           pytest
-        env:
-          CHROMIUM_PATH: ${{ steps.setup-chrome.outputs.chrome-path }}
-          CHROMEDRIVER_PATH: ${{ steps.setup-chrome.outputs.chromedriver-path }}
