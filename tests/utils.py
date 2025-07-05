@@ -10,9 +10,6 @@ def get_chromium_path() -> str:
     Returns: The path.
     """
 
-    if os.name == "nt":
-        return "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe"
-
     return os.getenv("CHROMIUM_PATH") or ""
 
 

@@ -60,8 +60,6 @@ def create_httpproxy(port=8086, mode="http", auth=""):
 
 @pytest.fixture
 def driver_path():
-    if os.name == "nt":
-        return "chromedriver.exe"
     return os.getenv("CHROMEDRIVER_PATH") or ""
 
 
