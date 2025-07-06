@@ -23,7 +23,7 @@ authors = [
     { name = "LunarWatcher", email = "oliviawolfie@pm.me" },
 ]
 
-description = "Unofficial, community-made tool for downloading the Stack Exchange data dumps"
+description = "Extends Selenium to give you the ability to inspect requests made by the browser, with built-in support for undetected-geckodriver-lw and undetected-chromedriver"
 requires-python = ">=3.10"
 classifiers = [
     "Development Status :: 5 - Production/Stable",
