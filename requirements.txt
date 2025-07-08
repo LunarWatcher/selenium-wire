@@ -2,6 +2,5 @@ mitmproxy>=11.0.2
 selenium>=4.10.0
 
 # Development
-tox
 pytest
 httpbin
