@@ -93,7 +93,7 @@ def test_add_request_header(driver, httpbin):
     driver.request_interceptor = interceptor
     driver.get(f"{httpbin}/headers")
 
-    data = json.loads(driver.last_request.response.body.decode("utf-8"))
+    data = json.loads(driver.requests[0].response.body.decode("utf-8"))
 
     assert data["headers"]["X-New-Header"] == "test"
 
@@ -106,7 +106,7 @@ def test_replace_request_header(driver, httpbin):
     driver.request_interceptor = interceptor
     driver.get(f"{httpbin}/headers")
 
-    data = json.loads(driver.last_request.response.body.decode("utf-8"))
+    data = json.loads(driver.requests[0].response.body.decode("utf-8"))
 
     assert data["headers"]["User-Agent"] == "test_user_agent"
 
@@ -122,7 +122,7 @@ def test_add_duplicate_request_header(driver, httpbin):
     driver.request_interceptor = interceptor
     driver.get(f"{httpbin}/headers")
 
-    data = json.loads(driver.last_request.response.body.decode("utf-8"))
+    data = json.loads(driver.requests[0].response.body.decode("utf-8"))
 
     assert data["headers"]["Referer"] == "some_referer,another_referer"
 
@@ -154,7 +154,7 @@ def test_interceptor_does_not_modify_body(driver, httpbin):
     driver.response_interceptor = interceptor
     driver.get(f"{httpbin}/html")
 
-    assert size and len(driver.last_request.response.body) == size
+    assert size and len(driver.requests[0].response.body) == size
 
 
 def test_add_request_parameter(driver, httpbin):
@@ -166,7 +166,7 @@ def test_add_request_parameter(driver, httpbin):
     driver.request_interceptor = interceptor
     driver.get(f"{httpbin}/get?spam=eggs")
 
-    data = json.loads(driver.last_request.response.body.decode("utf-8"))
+    data = json.loads(driver.requests[0].response.body.decode("utf-8"))
 
     assert data["args"] == {"foo": "bar", "spam": "eggs"}
 
@@ -211,7 +211,7 @@ def test_block_a_request(driver, httpbin):
     driver.request_interceptor = interceptor
     driver.get(f"{httpbin}/image/png")
 
-    assert driver.last_request.response.status_code == 403
+    assert driver.requests[0].response.status_code == 403
 
 
 def test_mock_a_response(driver, httpbin):
