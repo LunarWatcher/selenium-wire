@@ -4,6 +4,7 @@ from seleniumwire import SeleniumWireOptions, Chrome
 from seleniumwire.request import Response
 
 import json
+import time
 import pytest
 
 def _decompress(response):
@@ -21,6 +22,7 @@ def _decompress(response):
 
 def test_decompress_with_nothing(driver: Chrome, httpbin: Httpbin):
     driver.get(f"{httpbin}/json")
+    time.sleep(1)
     res = driver.last_request.response
     body = res.body
     assert body is not None
@@ -35,6 +37,7 @@ def test_decompress_with_nothing(driver: Chrome, httpbin: Httpbin):
 
 def test_decompress_with_brotli(driver: Chrome, httpbin: Httpbin):
     driver.get(f"{httpbin}/brotli")
+    time.sleep(1)
     res = driver.requests[-1].response
     assert res.headers.get("content-encoding") \
         == "br"
@@ -42,6 +45,7 @@ def test_decompress_with_brotli(driver: Chrome, httpbin: Httpbin):
 
 def test_decompress_with_deflate(driver: Chrome, httpbin: Httpbin):
     driver.get(f"{httpbin}/deflate")
+    time.sleep(1)
     res = driver.requests[-1].response
     assert res.headers.get("content-encoding") \
         == "deflate"
@@ -49,6 +53,7 @@ def test_decompress_with_deflate(driver: Chrome, httpbin: Httpbin):
 
 def test_decompress_with_gzip(driver: Chrome, httpbin: Httpbin):
     driver.get(f"{httpbin}/gzip")
+    time.sleep(1)
     res = driver.requests[-1].response
     assert res.headers.get("content-encoding") \
         == "gzip"
