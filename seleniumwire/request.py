@@ -29,7 +29,7 @@ class CommonWeb:
         for k, v in headers:
             self.headers.add_header(k, v)
 
-    def decode_body(self):
+    def decompress_body(self):
         encoding = self.headers.get("content-encoding")
         if encoding == "gzip":
             return zlib.decompress(self._body, wbits = 16+zlib.MAX_WBITS)

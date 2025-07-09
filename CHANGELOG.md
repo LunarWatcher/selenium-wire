@@ -1,5 +1,21 @@
 # Changelog
 
+## v1.1.0 (2025-07-10)
+
+### Added 
+* `{request,response}.decompress_body()` for automatically decompressing currently four known encodings (deflate, brotli, zstd, gzip). For no encoding, this function is a noop that's identical to `.body`. For unknown encodings, this function throws an exception.
+    * Everything except `zstd` has been tested. `httpbin`, which is used for the tests, unfortunately does not support zstd.
+
+### Changed
+* `body` and `headers` are now managed by a superclass for both `request` and `response`. This gives some reduced code duplication in common code shared between requests and responses. This should not affect anything external.
+
+### Fixed
+* Test-meta: e2e test fixtures moved into a common `e2e_utils.py` for reuse in future tests
+
+## v1.0.2 (2025-07-06)
+
+???, I dropped the ball
+
 ## v1.0.1 (2025-07-05)
 
 ### Fixed

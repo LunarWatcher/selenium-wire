@@ -14,7 +14,7 @@ def _decompress(response):
     assert len(body) > 0
     with pytest.raises((json.decoder.JSONDecodeError, UnicodeDecodeError)):
         json.loads(body)
-    decoded_body = response.decode_body()
+    decoded_body = response.decompress_body()
     assert decoded_body != body
 
     json.loads(decoded_body)
@@ -26,7 +26,7 @@ def test_decompress_with_nothing(driver: Chrome, httpbin: Httpbin):
     assert body is not None
     assert len(body) > 0
     assert json.loads(body) is not None
-    assert json.loads(res.decode_body()) is not None
+    assert json.loads(res.decompress_body()) is not None
 
 # Not yet supported by httpbin
 # def test_decompress_with_zstd(driver: Chrome, httpbin: Httpbin):
