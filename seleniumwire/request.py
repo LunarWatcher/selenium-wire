@@ -7,7 +7,9 @@ from typing import Iterable, Optional, Union
 from urllib.parse import parse_qs, urlencode, urlsplit, urlunsplit
 
 from mitmproxy.certs import Cert
-
+import zlib
+import brotli
+import zstd
 
 class HTTPHeaders(HTTPMessage):
     """A dict-like data-structure to hold HTTP headers.
@@ -18,43 +20,29 @@ class HTTPHeaders(HTTPMessage):
     def __repr__(self):
         return repr(self.items())
 
-
-class Request:
-    """Represents an HTTP request."""
-
+class CommonWeb:
     _body: bytes
 
-    def __init__(self, *, method: str, url: str, headers: Iterable[tuple[str, str]], body: bytes | str | None = b""):
-        """Initialise a new Request object.
-
-        Args:
-            method: The request method - GET, POST etc.
-            url: The request URL.
-            headers: The request headers as an iterable of 2-element tuples.
-            body: The request body as bytes.
-        """
-        self.id: Optional[str] = None  # The id is set for captured requests
-        self.method = method
-        self.url = url
+    def __init__(self, headers: Iterable[tuple[str, str]]):
         self.headers = HTTPHeaders()
 
         for k, v in headers:
             self.headers.add_header(k, v)
 
-        self.body = body  # type: ignore
-        self.response: Optional[Response] = None
-        self.date: datetime = datetime.now()
-        self.ws_messages: list[WebSocketMessage] = []
-        self.certificate_list: list[Cert] = []
+    def decode_body(self):
+        encoding = self.headers.get("content-encoding")
+        if encoding == "gzip":
+            return zlib.decompress(self._body, wbits = 16+zlib.MAX_WBITS)
+        elif encoding == "br":
+            return brotli.decompress(self._body)
+        elif encoding == "deflate":
+            return zlib.decompress(self._body, wbits = 0)
+        elif encoding == "zstd":
+            return zstd.decompress(self._body)
+        elif encoding is None:
+            return self._body
 
-    def __getstate__(self):
-        state = self.__dict__
-        state["certificate_list"] = [cert.get_state() for cert in state["certificate_list"]]
-        return state
-
-    def __setstate__(self, state):
-        state["certificate_list"] = [Cert.from_state(cert) for cert in state["certificate_list"]]
-        self.__dict__ = state
+        raise RuntimeError("Unhandled compression method: {}".format(encoding))
 
     @property
     def body(self) -> bytes:
@@ -74,6 +62,47 @@ class Request:
             raise TypeError("body must be of type bytes")
         else:
             self._body = b
+
+class Request(CommonWeb):
+    """Represents an HTTP request."""
+
+    def __init__(
+        self,
+        *,
+        method: str,
+        url: str,
+        headers: Iterable[tuple[str, str]],
+        body: bytes | str | None = b""
+    ):
+        """Initialise a new Request object.
+
+        Args:
+            method: The request method - GET, POST etc.
+            url: The request URL.
+            headers: The request headers as an iterable of 2-element tuples.
+            body: The request body as bytes.
+        """
+        super().__init__(headers)
+
+        self.id: Optional[str] = None  # The id is set for captured requests
+        self.method = method
+        self.url = url
+
+        self.body = body  # type: ignore
+        self.response: Optional[Response] = None
+        self.date: datetime = datetime.now()
+        self.ws_messages: list[WebSocketMessage] = []
+        self.certificate_list: list[Cert] = []
+
+    def __getstate__(self):
+        state = self.__dict__
+        state["certificate_list"] = [cert.get_state() for cert in state["certificate_list"]]
+        return state
+
+    def __setstate__(self, state):
+        state["certificate_list"] = [Cert.from_state(cert) for cert in state["certificate_list"]]
+        self.__dict__ = state
+
 
     @property
     def querystring(self) -> str:
@@ -169,13 +198,16 @@ class Request:
         return self.url
 
 
-class Response:
+class Response(CommonWeb):
     """Represents an HTTP response."""
 
-    _body: bytes
-
     def __init__(
-        self, *, status_code: int, reason: str, headers: Iterable[tuple[str, str]], body: bytes | str | None = b""
+        self,
+        *,
+        status_code: int,
+        reason: str,
+        headers: Iterable[tuple[str, str]],
+        body: bytes | str | None = b""
     ):
         """Initialise a new Response object.
 
@@ -185,12 +217,10 @@ class Response:
             headers: The response headers as an iterable of 2-element tuples.
             body: The response body as bytes.
         """
+        super().__init__(headers)
+
         self.status_code = status_code
         self.reason = reason
-        self.headers = HTTPHeaders()
-
-        for k, v in headers:
-            self.headers.add_header(k, v)
 
         self.body = body  # type: ignore
         self.date: datetime = datetime.now()
@@ -204,25 +234,6 @@ class Response:
     def __setstate__(self, state):
         state["certificate_list"] = [Cert.from_state(cert) for cert in state["certificate_list"]]
         self.__dict__ = state
-
-    @property
-    def body(self) -> bytes:
-        """Get the response body.
-
-        Returns: The response body as bytes.
-        """
-        return self._body
-
-    @body.setter
-    def body(self, b: bytes | str | None):
-        if b is None:
-            self._body = b""
-        elif isinstance(b, str):
-            self._body = b.encode("utf-8")
-        elif not isinstance(b, bytes):
-            raise TypeError("body must be of type bytes")
-        else:
-            self._body = b
 
     def __repr__(self):
         return (
