@@ -331,6 +331,9 @@ Request objects have the following methods.
     remote server. For use within request interceptors. See [Example:
     Mock a response](#example-mock-a-response).
 
+`decompress_body()` 
+:   Returns the body decompressed with the method indicated by `Content-Encoding`. If this header is missing, it's assumed the body isn't compressed, and it's returned as-is
+
 ### WebSocketMessage Objects
 
 These objects represent websocket messages sent between the browser and
@@ -389,6 +392,11 @@ body = decode(response.body, response.headers.get("Content-Encoding", "identity"
 `status_code`
 
 :   The status code of the response, e.g. `200` or `404` etc.
+
+Response objects have the following methods:
+
+`decompress_body()` 
+:   Returns the body decompressed with the method indicated by `Content-Encoding`. If this header is missing, it's assumed the body isn't compressed, and it's returned as-is
 
 ## Intercepting Requests and Responses
 
