@@ -198,8 +198,11 @@ try:
             kwargs["options"] = options
             self._setup_backend(seleniumwire_options, options)
             super().__init__(*args, **kwargs)
-except:
-    pass
+except ImportError as e:
+    # Necessary to account for nested import errors, but mainly to third-party
+    # deps
+    if "undetected_geckodriver" not in repr(e):
+        raise
 
 try:
     import undetected_chromedriver as uc
@@ -212,5 +215,8 @@ try:
             kwargs["options"] = options
             self._setup_backend(seleniumwire_options, options)
             super().__init__(*args, **kwargs)
-except:
-    pass
+except ImportError as e:
+    # Necessary to account for nested import errors, but mainly to third-party
+    # deps
+    if "undetected_chromedriver" not in repr(e):
+        raise

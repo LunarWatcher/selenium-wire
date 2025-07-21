@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.1.1 (2025-07-21)
+
+### Fixed
+* `UndetectedChrome` had accidental references to `FirefoxOptions`
+* Type check exceptions from `UndetectedChrome` and `UndetectedFirefox` to silence `ImportError`, but re-raise anything else
+
 ## v1.1.0 (2025-07-10)
 
 ### Added 
