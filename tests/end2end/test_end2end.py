@@ -18,9 +18,7 @@ import seleniumwire
 from seleniumwire.exceptions import SeleniumWireException
 from seleniumwire.options import ProxyConfig, SeleniumWireOptions
 from seleniumwire.webdriver import Chrome
-
-from .e2e_utils import *
-
+from tests.conftest import create_driver, create_httpproxy
 
 def test_capture_requests(driver: Chrome, httpbin):
     driver.get(f"{httpbin}/html")

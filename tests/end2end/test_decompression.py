@@ -1,7 +1,6 @@
-from .e2e_utils import *
-
 from seleniumwire import SeleniumWireOptions, Chrome
 from seleniumwire.request import Response
+from tests.httpbin_server import Httpbin
 
 import json
 import time

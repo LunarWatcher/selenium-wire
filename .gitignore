@@ -2,6 +2,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
+chrome_tmp/
 
 # C extensions
 *.so

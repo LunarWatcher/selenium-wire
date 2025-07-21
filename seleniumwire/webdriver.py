@@ -193,7 +193,7 @@ try:
     class UndetectedFirefox(InspectRequestsMixin, DriverCommonMixin,
                             uf.Firefox):
         def __init__(self, *args, seleniumwire_options: SeleniumWireOptions = SeleniumWireOptions(), **kwargs):
-            """Initialise a new Firefox WebDriver instance."""
+            """Initialise a new Undetected Firefox WebDriver instance."""
             options = kwargs.get("options", FirefoxOptions())
             kwargs["options"] = options
             self._setup_backend(seleniumwire_options, options)
@@ -207,8 +207,8 @@ try:
     class UndetectedChrome(InspectRequestsMixin, DriverCommonMixin,
                             uc.Chrome):
         def __init__(self, *args, seleniumwire_options: SeleniumWireOptions = SeleniumWireOptions(), **kwargs):
-            """Initialise a new Firefox WebDriver instance."""
-            options = kwargs.get("options", FirefoxOptions())
+            """Initialise a new Undetected Chrome WebDriver instance."""
+            options = kwargs.get("options", ChromeOptions())
             kwargs["options"] = options
             self._setup_backend(seleniumwire_options, options)
             super().__init__(*args, **kwargs)

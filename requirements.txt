@@ -4,6 +4,8 @@ selenium>=4.10.0
 brotli>=1.1.0
 zstd>=1.5.7.2
 
-# Development
+# Testing dependencies
 pytest
 httpbin
+undetected-geckodriver-lw
+undetected-chromedriver
