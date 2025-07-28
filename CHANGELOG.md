@@ -10,6 +10,8 @@ To get `UndetectedChrome` back:
 1. `pip3 install selenium-wire-undetected-chromedriver-lw`
 2. `from seleniumwire_gpl import UndetectedChrome`
 
+The GPL'd package is stored in [this repo](https://github.com/LunarWatcher/selenium-wire-undetected-chromedriver)
+
 ## v1.1.1 (2025-07-21)
 
 ### Fixed

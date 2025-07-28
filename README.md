@@ -55,7 +55,7 @@ https://www.google.com/gen_204?s=webaft&t=aft&atyp=csi&ei=kgRJW7DBONKTlwTK77wQ&r
 - Selenium 4.10.0+
 - Chrome, Firefox, Edge, Safari, and Remote Webdriver supported
 - `UndetectedFirefox` if `undetected-geckodriver-lw` is installed
-- `UndetectedChrome` through the separate dependency `selenium-wire-undetected-chromedriver-lw`. **WARNING:** `undetected_chromedriver` is licensed under GPLv3, so `selenium-wire-undetected-chromedriver-lw` is as well by requirement of GPL.
+- `UndetectedChrome` through the separate dependency `selenium-wire-undetected-chromedriver-lw`. **WARNING:** `undetected_chromedriver` is licensed under GPLv3, so `selenium-wire-undetected-chromedriver-lw` is as well by requirement of GPL. [Repo for this package](https://github.com/LunarWatcher/selenium-wire-undetected-chromedriver)
 
 ## Installation
 
