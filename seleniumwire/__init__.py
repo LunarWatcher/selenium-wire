@@ -30,9 +30,3 @@ try:
     __all__.append("UndetectedFirefox")
 except:
     pass
-try:
-    from seleniumwire.webdriver import UndetectedChrome
-    __all__.append("UndetectedChrome")
-except:
-    pass
-

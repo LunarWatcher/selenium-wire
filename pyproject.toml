@@ -25,7 +25,7 @@ authors = [
     { name = "LunarWatcher", email = "oliviawolfie@pm.me" },
 ]
 
-description = "Extends Selenium to give you the ability to inspect requests made by the browser, with built-in support for undetected-geckodriver-lw and undetected-chromedriver"
+description = "Extends Selenium to give you the ability to inspect requests made by the browser, with built-in support for undetected-geckodriver-lw"
 requires-python = ">=3.10"
 classifiers = [
     "Development Status :: 5 - Production/Stable",
@@ -46,14 +46,13 @@ keywords = [
 ]
 
 [project.optional-dependencies]
-ud = [ "undetected-geckodriver-lw", "undetected-chromedriver" ]
-uf = [ "undetected-geckodriver-lw" ]
-uc = [ "undetected-chromedriver" ]
-
+uf = [
+    "undetected-geckodriver-lw" 
+]
 
 [project.urls]
 Homepage = "https://github.com/LunarWatcher/selenium-wire"
 Documentation = "https://github.com/LunarWatcher/selenium-wire"
 Repository = "https://github.com/LunarWatcher/selenium-wire.git"
 Issues = "https://github.com/LunarWatcher/selenium-wire/issues"
-Changelog = "https://github.com/LunarWatcher/selenium-wire/releases"
+Changelog = "https://github.com/LunarWatcher/selenium-wire/blob/master/CHANGELOG.md"

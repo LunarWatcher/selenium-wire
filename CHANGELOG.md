@@ -1,5 +1,15 @@
 # Changelog
 
+## v2.0.0 (2025-07-28)
+
+### Changed
+`UndetectedChrome` is now part of a separate package `selenium-wire-undetected-chromedriver-lw`, because undetected_chromedriver is licensed under GPLv3. This should ensure only the undetected-chromedriver bits need to be GPL, and avoids a total relicensing of the preexisting code in this repo.
+
+To get `UndetectedChrome` back:
+
+1. `pip3 install selenium-wire-undetected-chromedriver-lw`
+2. `from seleniumwire_gpl import UndetectedChrome`
+
 ## v1.1.1 (2025-07-21)
 
 ### Fixed

@@ -1,3 +1,6 @@
+# NOTE: You do not need to use this file if you want to install selenium-wire. The production dependencies
+# are listed in pyproject.toml
+
 mitmproxy>=11.0.2
 selenium>=4.10.0
 
@@ -8,10 +11,6 @@ zstd>=1.5.7.2
 pytest
 httpbin
 undetected-geckodriver-lw
-# TODO: can't add this to the tests in any way until undetected-chromedriver
-# creates a new release.
-# https://github.com/ultrafunkamsterdam/undetected-chromedriver/commit/c50b6a219f1a2de3596c7887012b05cb99714ba8
-# has not yet been deployed, but is required for undetected-chromedriver to build
-# on python 3.12 and up, unless installing the setuptools package as a workaround.
-# It has been patched, they just haven't released it yet
-# undetected-chromedriver
+
+# Used for manual testing of proxies (not in automated tests, and not anywhere else)
+proxy.py

@@ -1,10 +1,10 @@
 # Selenium Wire
 
-This is a fork of 7x11x13's [selenium-wire-2](https://github.com/7x11x13/selenium-wire-2), which itself is a fork of Will Keeling's [selenium-wire](https://github.com/wkeeling/selenium-wire). This fork notably features both `undetected-geckodriver-lw` and `undetected-chromedriver` integration.
+This is a fork of 7x11x13's [selenium-wire-2](https://github.com/7x11x13/selenium-wire-2), which itself is a fork of Will Keeling's [selenium-wire](https://github.com/wkeeling/selenium-wire). This fork notably features both `undetected-geckodriver-lw`, and a separate dependency with `undetected-chromedriver` support.
 
 This fork exists because selenium-wire has been officially abandoned, selenium-wire-2 does not appear to be maintained, and I need selenium-wire for an archival project of mine, so here we go.
 
-Selenium Wire extends [Selenium\'s](https://www.selenium.dev/documentation/en/) Python bindings to give you access to the underlying requests made by the browser. You author your code in the same way as you do with Selenium, but you get extra APIs for inspecting requests and responses and making changes to them on the fly.
+Selenium Wire extends [Selenium's](https://www.selenium.dev/documentation/en/) Python bindings to give you access to the underlying requests made by the browser. You author your code in the same way as you do with Selenium, but you get extra APIs for inspecting requests and responses and making changes to them on the fly.
 
 ## Simple Example
 
@@ -55,7 +55,7 @@ https://www.google.com/gen_204?s=webaft&t=aft&atyp=csi&ei=kgRJW7DBONKTlwTK77wQ&r
 - Selenium 4.10.0+
 - Chrome, Firefox, Edge, Safari, and Remote Webdriver supported
 - `UndetectedFirefox` if `undetected-geckodriver-lw` is installed
-- `UndetectedChrome` if `undetected-chromedriver` is installed
+- `UndetectedChrome` through the separate dependency `selenium-wire-undetected-chromedriver-lw`. **WARNING:** `undetected_chromedriver` is licensed under GPLv3, so `selenium-wire-undetected-chromedriver-lw` is as well by requirement of GPL.
 
 ## Installation
 
@@ -72,8 +72,8 @@ be running an old version of pip. Try upgrading pip with
 In addition to the mainline install, three different variants are also supported:
 
 * `selenium-wire-lw[uf]`: `undetected-geckodriver-lw` is also installed
-* `selenium-wire-lw[uc]`: `undetected-chromedriver` is also installed
-* `selenium-wire-lw[ud]`: same as both `uf` and `uc`
+
+For undetected_chromedriver, you'll have to install `selenium-wire-undetected-chromedriver-lw` as well. `UndetectedChrome` is forced to be in a separate dependency to avoid full GPL virality.
 
 ### Browser Setup
 
@@ -856,7 +856,7 @@ driver = webdriver.Chrome(seleniumwire_options=options)
 
 ## License
 
-MIT. See the LICENSE file
+MIT. See the LICENSE file for more information
 
 [^1]: Selenium Wire ignores OPTIONS requests by default, as these are
     typically uninteresting and just add overhead. If you want to

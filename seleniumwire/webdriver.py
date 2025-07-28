@@ -9,6 +9,7 @@ from selenium.webdriver import FirefoxOptions
 from selenium.webdriver import Remote as _Remote
 from selenium.webdriver import Safari as _Safari
 from selenium.webdriver import SafariOptions
+from selenium.webdriver.chromium.options import ChromiumOptions
 from selenium.webdriver.common.options import BaseOptions
 from selenium.webdriver.common.proxy import Proxy
 
@@ -16,7 +17,6 @@ from seleniumwire import backend, utils
 from seleniumwire.inspect import InspectRequestsMixin
 from seleniumwire.options import ProxyConfig, SeleniumWireOptions
 from seleniumwire.server import MitmProxy
-
 
 class Capabilities(TypedDict):
     proxy: dict
@@ -31,12 +31,27 @@ class WebDriverProtocol(Protocol):
 
 
 def _set_options(options: BaseOptions, capabilities: Capabilities):
-    if isinstance(options, ChromeOptions) or isinstance(options, EdgeOptions):
+    if (
+        isinstance(options, ChromeOptions)
+        or isinstance(options, EdgeOptions)
+    ):
         # Prevent Chrome from bypassing the Selenium Wire proxy
         # for localhost addresses.
         options.add_argument("--proxy-bypass-list=<-loopback>")
         for key, value in capabilities.items():
             options.set_capability(key, value)
+    elif isinstance(options, ChromiumOptions):
+        # Chromium, but not Chrome. There's a semi-decent chance this is a
+        # wrapped driver, so pass the --proxy-server arg for good measure
+        options.add_argument("--proxy-bypass-list=<-loopback>")
+        for key, value in capabilities.items():
+            options.set_capability(key, value)
+        try:
+            options.add_argument(
+                "--proxy-server=" + capabilities["proxy"]["httpProxy"]
+            )
+        except KeyError:
+            pass
     elif isinstance(options, FirefoxOptions):
         # Prevent Firefox from bypassing the Selenium Wire proxy
         # for localhost addresses.
@@ -202,21 +217,4 @@ except ImportError as e:
     # Necessary to account for nested import errors, but mainly to third-party
     # deps
     if "undetected_geckodriver" not in repr(e):
-        raise
-
-try:
-    import undetected_chromedriver as uc
-
-    class UndetectedChrome(InspectRequestsMixin, DriverCommonMixin,
-                            uc.Chrome):
-        def __init__(self, *args, seleniumwire_options: SeleniumWireOptions = SeleniumWireOptions(), **kwargs):
-            """Initialise a new Undetected Chrome WebDriver instance."""
-            options = kwargs.get("options", ChromeOptions())
-            kwargs["options"] = options
-            self._setup_backend(seleniumwire_options, options)
-            super().__init__(*args, **kwargs)
-except ImportError as e:
-    # Necessary to account for nested import errors, but mainly to third-party
-    # deps
-    if "undetected_chromedriver" not in repr(e):
         raise
