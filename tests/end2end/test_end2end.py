@@ -144,10 +144,13 @@ def test_interceptor_does_not_modify_body(driver, httpbin):
     response interceptor does not modify it. Originally the cause of #375.
     """
     size = 0
+    url = f"{httpbin}/html"
 
     def interceptor(req, res):
         nonlocal size
-        size = len(res.body)
+        # Prevent the favicon from changing the size
+        if req.url == url:
+            size = len(res.body)
 
     driver.response_interceptor = interceptor
     driver.get(f"{httpbin}/html")
