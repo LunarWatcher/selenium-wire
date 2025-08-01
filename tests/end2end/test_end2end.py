@@ -153,9 +153,12 @@ def test_interceptor_does_not_modify_body(driver, httpbin):
             size = len(res.body)
 
     driver.response_interceptor = interceptor
-    driver.get(f"{httpbin}/html")
+    driver.get(url)
+    req = next(r for r in driver.requests if r.url == url)
 
-    assert size and len(driver.requests[0].response.body) == size
+    assert req is not None
+    assert req.response is not None
+    assert size and len(req.response.body) == size
 
 
 def test_add_request_parameter(driver, httpbin):

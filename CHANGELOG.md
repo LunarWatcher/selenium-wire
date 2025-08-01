@@ -6,7 +6,7 @@
 * Togglable `WebCache` as an optional helper
 
 ### Fixed
-* A flaky test, and added an extra assertion for another. Several of the tests rely on unreliable techniques, and several are prone to race conditions caused by just browsers being browsers
+* A flaky test, and added an extra assertion for another. Several of the tests rely on unreliable techniques, and several are prone to race conditions caused by just browsers being browsers. Modern browsers, but especially Chrome, does a _ton_ of phoning home at semi-arbitrary times that may fuck up tests, so this needs to be accounted for
 
 ## v2.0.0 (2025-07-28)
 
