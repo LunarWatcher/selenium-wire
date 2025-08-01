@@ -3,7 +3,10 @@
 ## v2.1.0 (2025-08-01)
 
 ### Added
-* Togglable `WebCache`, and a plugin system
+* Togglable `WebCache` as an optional helper
+
+### Fixed
+* A flaky test, and added an extra assertion for another. Several of the tests rely on unreliable techniques, and several are prone to race conditions caused by just browsers being browsers
 
 ## v2.0.0 (2025-07-28)
 
