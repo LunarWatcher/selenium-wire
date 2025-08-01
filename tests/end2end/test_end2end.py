@@ -424,6 +424,7 @@ def test_clear_proxy_on_the_fly(driver_path, chrome_options, httpbin, httpproxy)
         assert "This passed through a http proxy" in driver.page_source
 
         driver.remove_upstream_proxy()
+        assert driver.backend.options.upstream_proxy is None
         driver.get(f"{httpbin}/html")
         assert "This passed through a http proxy" not in driver.page_source
 
