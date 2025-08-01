@@ -19,7 +19,7 @@ Run `pip3 install -r requirements.txt` for the dependencies. `requirements.txt` 
 
 To run the tests, you need some form of Chromedriver installed on your system. Standard chromium seems to work fine on my system, so it doesn't have to be full googlified chrome. You can run the tests with:
 ```bash
-pytest
+python3 -m pytest
 ```
 
 This runs both standard and E2E tests. These are automatically run when you make a pull request, but because GitHub requires workflow runs to be approved before they're run, it's strongly recommended you don't use pull requests for rapid feedback, as I will not be sitting ready to push the button to run it immediately.

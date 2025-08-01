@@ -1,9 +1,14 @@
 # Changelog
 
+## v2.1.0 (2025-08-01)
+
+### Added
+* Togglable `WebCache`, and a plugin system
+
 ## v2.0.0 (2025-07-28)
 
 ### Changed
-`UndetectedChrome` is now part of a separate package `selenium-wire-undetected-chromedriver-lw`, because undetected_chromedriver is licensed under GPLv3. This should ensure only the undetected-chromedriver bits need to be GPL, and avoids a total relicensing of the preexisting code in this repo.
+`UndetectedChrome` is now part of a separate package (`selenium-wire-undetected-chromedriver-lw`), because undetected_chromedriver is licensed under GPLv3. This should ensure only the undetected-chromedriver bits need to be GPL, and avoids a total relicensing of the preexisting code in this repo.
 
 To get `UndetectedChrome` back:
 
