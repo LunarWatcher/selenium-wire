@@ -2,6 +2,9 @@
 
 ## [Unreleased]
 
+### Changed
+* Bumped mitmproxy to 12.2.0; this means python 3.12 or newer is required
+
 ## v2.1.0 (2025-08-01)
 
 ### Added

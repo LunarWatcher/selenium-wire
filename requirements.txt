@@ -4,7 +4,7 @@
 mitmproxy>=12.2.0
 selenium>=4.10.0
 
-brotli>=1.2.0
+brotli>=1.1.0
 zstd>=1.5.7.2
 
 # Testing dependencies

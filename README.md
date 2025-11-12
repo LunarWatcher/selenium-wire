@@ -51,7 +51,7 @@ https://www.google.com/gen_204?s=webaft&t=aft&atyp=csi&ei=kgRJW7DBONKTlwTK77wQ&r
 
 ## Compatibilty
 
-- Python 3.10+[^1]
+- Python 3.12 or newer
 - Selenium 4.10.0+
 - Chrome, Firefox, Edge, Safari, and Remote Webdriver supported
 - `UndetectedFirefox` if `undetected-geckodriver-lw` is installed
@@ -862,4 +862,3 @@ MIT. See the LICENSE file for more information
     typically uninteresting and just add overhead. If you want to
     capture OPTIONS requests, you need to set the `ignore_http_methods`
     [option](#all-options) to `[]`.
-[^2]: 3.13+ may have issues due to one of mitmproxy's upstream dependencies: https://github.com/mitmproxy/mitmproxy/issues/7127 - they say this shouldn't be a problem, though.
