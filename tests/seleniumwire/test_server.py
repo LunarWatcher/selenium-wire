@@ -48,7 +48,7 @@ class MitmProxyTest(TestCase):
         self.addCleanup(patcher.stop)
 
     def _is_python_3_14(self):
-        return sys.version_info[2] >= 14
+        return sys.version_info[1] >= 14
 
     def assert_has_calls(self, func, *args, **kwargs):
         if self._is_python_3_14():
