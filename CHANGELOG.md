@@ -1,11 +1,18 @@
 # Changelog
 
-## [Unreleased]
+## [v3.0.0] (2025-11-12)
+
+### Added
+* Python 3.14 support
+    - This was already in place, but it's now formally supported and verfied by the CI
 
 ### Changed
 * Bumped mitmproxy to 12.2.0; this means python 3.12 or newer is required
 
-## v2.1.0 (2025-08-01)
+### Fixed
+* Internal: add retries for flaky tests
+
+## [v2.1.0] (2025-08-01)
 
 ### Added
 * Togglable `WebCache` as an optional helper
@@ -13,7 +20,7 @@
 ### Fixed
 * A flaky test, and added an extra assertion for another. Several of the tests rely on unreliable techniques, and several are prone to race conditions caused by just browsers being browsers. Modern browsers, but especially Chrome, does a _ton_ of phoning home at semi-arbitrary times that may fuck up tests, so this needs to be accounted for
 
-## v2.0.0 (2025-07-28)
+## [v2.0.0] (2025-07-28)
 
 ### Changed
 `UndetectedChrome` is now part of a separate package (`selenium-wire-undetected-chromedriver-lw`), because undetected_chromedriver is licensed under GPLv3. This should ensure only the undetected-chromedriver bits need to be GPL, and avoids a total relicensing of the preexisting code in this repo.
@@ -25,13 +32,13 @@ To get `UndetectedChrome` back:
 
 The GPL'd package is stored in [this repo](https://github.com/LunarWatcher/selenium-wire-undetected-chromedriver)
 
-## v1.1.1 (2025-07-21)
+## [v1.1.1] (2025-07-21)
 
 ### Fixed
 * `UndetectedChrome` had accidental references to `FirefoxOptions`
 * Type check exceptions from `UndetectedChrome` and `UndetectedFirefox` to silence `ImportError`, but re-raise anything else
 
-## v1.1.0 (2025-07-10)
+## [v1.1.0] (2025-07-10)
 
 ### Added 
 * `{request,response}.decompress_body()` for automatically decompressing currently four known encodings (deflate, brotli, zstd, gzip). For no encoding, this function is a noop that's identical to `.body`. For unknown encodings, this function throws an exception.
@@ -43,16 +50,18 @@ The GPL'd package is stored in [this repo](https://github.com/LunarWatcher/selen
 ### Fixed
 * Test-meta: e2e test fixtures moved into a common `e2e_utils.py` for reuse in future tests
 
-## v1.0.2 (2025-07-06)
+## [v1.0.2] (2025-07-06)
 
 ???, I dropped the ball
 
-## v1.0.1 (2025-07-05)
+## [v1.0.1] (2025-07-05)
 
 ### Fixed
 * os.mkdir -> os.makedirs so it doesn't fail when making nested folders
 
 ## v1.0.0 (2025-07-05)
+
+_Initial release_
 
 ### Added
 * `UndetectedFirefox` and `UndetectedChrome` if the appropriate packages (`undetected-geckodriver-lw` and `undetected-chromedriver` respectively) are installed
@@ -70,3 +79,11 @@ The GPL'd package is stored in [this repo](https://github.com/LunarWatcher/selen
 * `tox`, because it's a piece of shit, I hate it deeply, and it single-handedly cost me significant amounts of time while trying an initial refactor of the original selenium-wire (i.e. not selenium-wire-2)
 * `setup.py` has been removed in favour of `pyproject.toml`
 
+[unreleased]: https://github.com/LunarWatcher/selenium-wire/compare/v3.0.0...master
+[v3.0.0]: https://github.com/LunarWatcher/selenium-wire/compare/v2.1.0...v3.0.0
+[v2.1.0]: https://github.com/LunarWatcher/selenium-wire/compare/v2.0.0...v2.1.0
+[v2.0.0]: https://github.com/LunarWatcher/selenium-wire/compare/v1.1.1...v2.0.0
+[v1.1.1]: https://github.com/LunarWatcher/selenium-wire/compare/v1.1.0...v1.1.1
+[v1.1.0]: https://github.com/LunarWatcher/selenium-wire/compare/v1.0.2...v1.1.0
+[v1.0.2]: https://github.com/LunarWatcher/selenium-wire/compare/v1.0.1...v1.0.2
+[v1.0.1]: https://github.com/LunarWatcher/selenium-wire/compare/v1.0.0...v1.0.1
