@@ -15,8 +15,8 @@ license = "MIT"
 license-files = ["LICENSE"]
 dependencies = [
     "selenium>=4.10.0",
-    "mitmproxy>=12.1.1",
-    "brotli>=1.1.0",
+    "mitmproxy>=12.2.0",
+    "brotli>=1.2.0",
     "zstd>=1.5.7.2",
 ]
 readme = "README.md"
