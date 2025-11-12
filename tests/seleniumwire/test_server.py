@@ -1,7 +1,6 @@
 import functools
 from unittest import TestCase
 from unittest.mock import call, patch
-import sys
 
 from seleniumwire.options import ProxyConfig, SeleniumWireOptions
 from seleniumwire.server import MitmProxy
@@ -47,23 +46,6 @@ class MitmProxyTest(TestCase):
         self.mock_get_mitm_upstream_proxy_args = patcher.start()
         self.addCleanup(patcher.stop)
 
-    def _is_python_3_14(self):
-        return sys.version_info[1] >= 14
-
-    def assert_has_calls(self, func, *args, **kwargs):
-        if self._is_python_3_14():
-            self.mock_options.return_value.update.assert_has_calls(
-                [
-                    func(self, *args, **kwargs)
-                ]
-            )
-        else:
-            self.mock_options.return_value.update.assert_has_calls(
-                [
-                    func(*args, **kwargs)
-                ]
-            )
-
     def test_creates_storage(self):
         proxy = MitmProxy(SeleniumWireOptions(self.host, 12345, storage_base_dir="/some/dir"))
 
@@ -91,9 +73,16 @@ class MitmProxyTest(TestCase):
         proxy = MitmProxy(SeleniumWireOptions(self.host, 12345, upstream_proxy=proxy_conf))
         self.assertEqual(self.mock_master.return_value, proxy.master)
         self.mock_options.assert_called_once()
-        self.assert_has_calls(
-            self.base_options_update,
-            confdir="/some/dir/.seleniumwire"
+        self.mock_options.return_value.update.assert_has_calls(
+            [
+                call(
+                    confdir='/some/dir/.seleniumwire',
+                    listen_host='somehost',
+                    listen_port=12345,
+                    ssl_insecure=True,
+                    anticomp=False
+                )
+            ]
         )
         self.mock_master.return_value.addons.add.assert_has_calls(
             [call(), call(self.mock_logger.return_value), call(self.mock_handler.return_value)]
@@ -105,9 +94,17 @@ class MitmProxyTest(TestCase):
     def test_update_mitmproxy_options(self):
         MitmProxy(SeleniumWireOptions(self.host, 12345, mitm_options={"test": "foobar"}))
 
-        self.assert_has_calls(
-            self.base_options_update,
-            test="foobar"
+        self.mock_options.return_value.update.assert_has_calls(
+            [
+                call(
+                    confdir='/some/dir',
+                    listen_host='somehost',
+                    listen_port=12345,
+                    ssl_insecure=True,
+                    anticomp=False,
+                    test='foobar'
+                )
+            ]
         )
 
     def test_disable_capture(self):
@@ -126,7 +123,14 @@ class MitmProxyTest(TestCase):
     def test_verify_ssl(self):
         MitmProxy(SeleniumWireOptions(self.host, 12345, verify_ssl=True))
 
-        self.assert_has_calls(
-            self.base_options_update,
-            ssl_insecure=False
+        self.mock_options.return_value.update.assert_has_calls(
+            [
+                call(
+                    confdir='/some/dir',
+                    listen_host='somehost',
+                    listen_port=12345,
+                    ssl_insecure=False,
+                    anticomp=False
+                )
+            ]
         )
