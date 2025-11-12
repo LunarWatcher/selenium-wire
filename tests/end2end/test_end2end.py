@@ -27,6 +27,7 @@ def test_capture_requests(driver: Chrome, httpbin):
     driver.get(f"{httpbin}/html")
     driver.find_element(By.TAG_NAME, "html")
 
+    driver.wait_for_request(".*favicon\\.ico.*")
     assert driver.requests
     # Page request + automatic favicon request
     assert len(driver.requests) == 2
