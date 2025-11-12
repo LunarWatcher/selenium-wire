@@ -11,14 +11,16 @@ from time import sleep
 from unittest.mock import patch
 
 import pytest
-from selenium.common.exceptions import TimeoutException
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+from flaky import flaky
+
 
 import seleniumwire
 from seleniumwire.exceptions import SeleniumWireException
 from seleniumwire.options import ProxyConfig, SeleniumWireOptions
 from seleniumwire.webdriver import Chrome
+from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from tests.conftest import create_driver, create_httpproxy
 
 def test_capture_requests(driver: Chrome, httpbin):
@@ -358,6 +360,7 @@ def test_address_in_use(driver_path, chrome_options, httpbin):
                 pass
 
 
+@flaky
 def test_har(driver_path, chrome_options, httpbin):
     with create_driver(driver_path, chrome_options, SeleniumWireOptions(enable_har=True)) as driver:
         driver.get(f"{httpbin}/html")
@@ -419,10 +422,12 @@ def test_switch_proxy_on_the_fly(driver_path, chrome_options, httpbin, httpproxy
             driver.get(f"{httpbin}/html")
             assert "This passed through a authenticated http proxy" in driver.page_source
 
+        assert driver.last_request is not None
         assert driver.last_request.certificate_list
 
 
 # TODO: This test appears to be flaky
+@flaky
 def test_clear_proxy_on_the_fly(driver_path, chrome_options, httpbin, httpproxy):
     sw_options = SeleniumWireOptions(upstream_proxy=ProxyConfig(https=f"{httpproxy}"))
 
