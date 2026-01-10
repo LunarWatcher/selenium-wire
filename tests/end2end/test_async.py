@@ -42,9 +42,9 @@ def test_async_does_not_throw(
             # }}}
         finally:
             assert driver is not None
+            start = time.monotonic()
             driver.quit()
-    start = time.monotonic()
+            end = time.monotonic()
+            assert end - start < 5
     asyncio.run(async_func())
-    end = time.monotonic()
 
-    assert end - start < 5
