@@ -9,6 +9,7 @@ zstd>=1.5.7.2
 
 # Testing dependencies
 pytest
+requests
 flaky
 httpbin
 undetected-geckodriver-lw
