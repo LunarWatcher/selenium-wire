@@ -29,7 +29,6 @@ class MitmProxy:
         event_loop: Optional[asyncio.AbstractEventLoop] = None,
         thread: Optional[threading.Thread] = None
     ):
-
         if event_loop is None:
             event_loop = asyncio.get_running_loop()
 
@@ -154,13 +153,13 @@ class MitmProxy:
     def shutdown(self):
         """Shutdown the server and perform any cleanup."""
         self._shutdown_mitmproxy()
-        # TODO: This does not work, because event_loop.stop() doesn't actually
-        # terminate anything, so it takes forever to shut down, likely because
-        # mitmproxy blocks the event loop somehow
-        # if self.thread is not None:
-        #     self.event_loop.stop()
-        #     self.thread.join(timeout=5)
         self.storage.cleanup()
+        if (
+            self.thread is not None
+            and self.thread.is_alive
+            and self.event_loop.is_running
+        ):
+            self.event_loop.stop()
 
     def _get_storage_args(self):
         storage_args = {

@@ -1,5 +1,11 @@
 # Changelog
 
+## [v3.0.2] (2026-01-10)
+
+### Fixed
+
+* Shut down proxy event loop when the browser is shut down (reported in [#8](https://github.com/LunarWatcher/selenium-wire/issues/8))
+
 ## [v3.0.1] (2026-01-10)
 
 ### Fixed

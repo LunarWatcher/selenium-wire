@@ -42,10 +42,9 @@ def test_async_does_not_throw(
             # }}}
         finally:
             assert driver is not None
+            driver.quit()
     start = time.monotonic()
     asyncio.run(async_func())
     end = time.monotonic()
 
-    # TODO: this is necessary to test taht shutdown() terminates as expected.
-    # This is currently unnecessary because the problematic code is disabled
-    # assert end - start < 5
+    assert end - start < 5

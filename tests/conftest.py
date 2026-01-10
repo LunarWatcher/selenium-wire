@@ -5,6 +5,7 @@ from tests import utils as testutils
 from tests.httpbin_server import Httpbin
 import shutil
 import os
+import time
 from seleniumwire.options import SeleniumWireOptions
 from selenium.webdriver.chrome.service import Service
 from pathlib import Path

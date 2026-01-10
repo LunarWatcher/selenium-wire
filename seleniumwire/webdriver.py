@@ -122,8 +122,8 @@ class DriverCommonMixin:
 
     def quit(self: WebDriverProtocol):
         """Shutdown Selenium Wire and then quit the webdriver."""
-        self.backend.shutdown()
         super().quit()  # type: ignore
+        self.backend.shutdown()
 
     def remove_upstream_proxy(self: WebDriverProtocol):
         """Remove upstream proxy"""
