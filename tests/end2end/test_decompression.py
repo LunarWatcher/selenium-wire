@@ -38,6 +38,7 @@ def test_decompress_with_nothing(driver: Chrome, httpbin: Httpbin):
 
 def test_decompress_with_brotli(driver: Chrome, httpbin: Httpbin):
     driver.get(f"{httpbin}/brotli")
+    driver.wait_for_request("/brotli")
     res = driver.requests[0].response
     assert res.status_code == 200, res.body
     assert res.headers.get("content-encoding") \
@@ -46,6 +47,7 @@ def test_decompress_with_brotli(driver: Chrome, httpbin: Httpbin):
 
 def test_decompress_with_deflate(driver: Chrome, httpbin: Httpbin):
     driver.get(f"{httpbin}/deflate")
+    driver.wait_for_request("/deflate")
     res = driver.requests[0].response
     assert res.status_code == 200, res.body
     assert res.headers.get("content-encoding") \
@@ -54,6 +56,7 @@ def test_decompress_with_deflate(driver: Chrome, httpbin: Httpbin):
 
 def test_decompress_with_gzip(driver: Chrome, httpbin: Httpbin):
     driver.get(f"{httpbin}/gzip")
+    driver.wait_for_request("/gzip")
     res = driver.requests[0].response
     assert res.status_code == 200, res.body
     assert res.headers.get("content-encoding") \
