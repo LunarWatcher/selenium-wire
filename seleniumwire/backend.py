@@ -19,10 +19,14 @@ def create(options: SeleniumWireOptions = SeleniumWireOptions()):
 
     event_loop = asyncio.new_event_loop()
 
-    t = threading.Thread(name="Selenium Wire Proxy Server", target=event_loop.run_forever, daemon=True)
+    t = threading.Thread(
+        name="Selenium Wire Proxy Server",
+        target=event_loop.run_forever,
+        daemon=True
+    )
     t.start()
 
-    backend = MitmProxy(options, event_loop)
+    backend = MitmProxy(options, event_loop, t)
     backend.start()
 
     addr, port, *_ = backend.address

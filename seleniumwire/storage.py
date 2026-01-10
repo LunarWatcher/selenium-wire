@@ -64,6 +64,7 @@ class RequestStorage:
         if base_dir is None:
             base_dir = os.path.expanduser("~/")
 
+        # TODO: Should probably dump this in a different directory instead
         self.home_dir: str = os.path.join(base_dir, ".seleniumwire")
         self.session_dir: str = os.path.join(self.home_dir, "storage-{}".format(str(uuid.uuid4())))
         os.makedirs(self.session_dir, exist_ok=True)

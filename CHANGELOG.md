@@ -1,5 +1,11 @@
 # Changelog
 
+## [v3.0.1] (2026-01-10)
+
+### Fixed
+
+* Fixed starting the webdriver from an async function causing an exception (reported in [#7](https://github.com/LunarWatcher/selenium-wire/issues/7))
+
 ## [v3.0.0] (2025-11-12)
 
 ### Added
@@ -23,7 +29,7 @@
 ## [v2.0.0] (2025-07-28)
 
 ### Changed
-`UndetectedChrome` is now part of a separate package (`selenium-wire-undetected-chromedriver-lw`), because undetected_chromedriver is licensed under GPLv3. This should ensure only the undetected-chromedriver bits need to be GPL, and avoids a total relicensing of the preexisting code in this repo.
+`UndetectedChrome` is now part of a separate package (`selenium-wire-undetected-chromedriver-lw`), because undetected\_chromedriver is licensed under GPLv3. This should ensure only the undetected-chromedriver bits need to be GPL, and avoids a total relicensing of the preexisting code in this repo.
 
 To get `UndetectedChrome` back:
 
@@ -80,6 +86,7 @@ _Initial release_
 * `setup.py` has been removed in favour of `pyproject.toml`
 
 [unreleased]: https://github.com/LunarWatcher/selenium-wire/compare/v3.0.0...master
+[v3.0.1]: https://github.com/LunarWatcher/selenium-wire/compare/v3.0.0...v3.0.1
 [v3.0.0]: https://github.com/LunarWatcher/selenium-wire/compare/v2.1.0...v3.0.0
 [v2.1.0]: https://github.com/LunarWatcher/selenium-wire/compare/v2.0.0...v2.1.0
 [v2.0.0]: https://github.com/LunarWatcher/selenium-wire/compare/v1.1.1...v2.0.0

@@ -1,5 +1,7 @@
 import asyncio
 import logging
+import threading
+import time
 from typing import Callable, Iterable, Optional
 
 from mitmproxy import addons
@@ -18,16 +20,21 @@ from seleniumwire.utils import get_mitm_upstream_proxy_args
 
 logger = logging.getLogger(__name__)
 
-
 class MitmProxy:
     """Run and manage a mitmproxy server instance."""
 
-    def __init__(self, options: SeleniumWireOptions, event_loop: Optional[asyncio.AbstractEventLoop] = None):
+    def __init__(
+        self,
+        options: SeleniumWireOptions,
+        event_loop: Optional[asyncio.AbstractEventLoop] = None,
+        thread: Optional[threading.Thread] = None
+    ):
 
         if event_loop is None:
             event_loop = asyncio.get_running_loop()
 
         self.event_loop = event_loop
+        self.thread = thread
 
         self.options = options
 
@@ -98,12 +105,6 @@ class MitmProxy:
         else:
             return None
 
-    async def _wait_for_proxyserver(self):
-        while not (
-            self.master and self.master.addons.get("proxyserver") and self.master.addons.get("proxyserver").is_running
-        ):
-            await asyncio.sleep(0.01)
-
     def update_server_mode(self, proxy_conf: Optional[ProxyConfig]):
         # save mitmproxy listen address
         host, port, *_ = self.address
@@ -119,9 +120,17 @@ class MitmProxy:
 
     def start(self):
         """Run the server."""
-        asyncio.run_coroutine_threadsafe(self.master.run(), self.event_loop)
+        asyncio.run_coroutine_threadsafe(
+            self.master.run(),
+            self.event_loop
+        )
         # wait for proxyserver to start
-        asyncio.run(self._wait_for_proxyserver())
+        while not (
+            self.master
+            and self.master.addons.get("proxyserver")
+            and self.master.addons.get("proxyserver").is_running
+        ):
+            time.sleep(0.01)
 
     @property
     def address(self) -> Address:
@@ -135,13 +144,22 @@ class MitmProxy:
 
     def _shutdown_mitmproxy(self):
         self.master.shutdown()
-        proxyserver: Proxyserver = self.master.addons.get("proxyserver")  # type: ignore
-        future = asyncio.run_coroutine_threadsafe(proxyserver.servers.update([]), self.event_loop)
+        proxyserver: proxyserver = self.master.addons.get("proxyserver")  # type: ignore
+        future = asyncio.run_coroutine_threadsafe(
+            proxyserver.servers.update([]),
+            self.event_loop
+        )
         future.result()
 
     def shutdown(self):
         """Shutdown the server and perform any cleanup."""
         self._shutdown_mitmproxy()
+        # TODO: This does not work, because event_loop.stop() doesn't actually
+        # terminate anything, so it takes forever to shut down, likely because
+        # mitmproxy blocks the event loop somehow
+        # if self.thread is not None:
+        #     self.event_loop.stop()
+        #     self.thread.join(timeout=5)
         self.storage.cleanup()
 
     def _get_storage_args(self):
